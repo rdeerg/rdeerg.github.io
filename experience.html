@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EShine Wang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    header,
+    nav {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        top: 0
+    }
+
+    header {
+        background-color: #265C4B;
+        color: white;
+        padding: 10px 0;
+        text-align: left;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    h4 {
+        margin-top: 0;
+        padding: 0;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 50px;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    }
+
+    h4 img {
+        margin-top: 3px;
+    }
+
+    nav {
+        top: 70px;
+        background-color: #2CBF9D;
+        padding: 7px;
+        text-align: center;
+    }
+
+    nav a {
+        background-color: transparent;
+        border: none;
+        color: white;
+        text-decoration: none;
+        padding: 9px 50px;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 30%;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    nav a:hover {
+        background-color: rgba(143, 193, 181, 0.9);
+    }
+
+    nav a:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        height: calc(100% - 10px);
+        width: 2px;
+        background-color: white;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: gray;
+        color: white;
+    }
+
+    h2 {
+        background-color: gray;
+        color: white;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .text-container {
+        margin-top: 110px;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王奕翔｜神采奕奕!展翅翱翔!</h1>
+        <h4><img src="mail.png" alt="Email icon" style="height: 20px;"> 聯絡資訊&nbsp;:&nbsp;eshine0806@gmail.com&nbsp;&nbsp;&nbsp;</h4>
+    </header>
+    <nav>
+        <a href="index.html">主頁</a>
+        <a href="about.html">關於我</a>
+        <a href="experience.html">個人經歷</a>
+        <a href="skills.html">專業技能</a>
+        <a href="reward.html">獲獎紀錄</a>
+    </nav>
+    <div class="text-container">
+        <h2>學歷</h2>
+        <table>
+            <tr>
+                <th>年份</th>
+                <th>學歷</th>
+                <th>學校</th>
+                <th>系所/學程</th>
+            </tr>
+            <tr>
+                <td>2020</td>
+                <td>大學畢業</td>
+                <td>國立東華大學</td>
+                <td>自然資源與環境學系，地球科學學程（主修）；人文地理學程（副修）</td>
+            </tr>
+            <tr>
+                <td>2024</td>
+                <td>碩士(在學)</td>
+                <td>國立臺灣師範大學</td>
+                <td>地理學系</td>
+            </tr>
+        </table>
+        <h2>工作經歷</h2>
+        <table>
+            <tr>
+                <th>年份</th>
+                <th>單位</th>
+                <th>職稱</th>
+            </tr>
+            <tr>
+                <td>2017</td>
+                <td>國立東華大學 防災研究中心</td>
+                <td>助理研究員</td>
+            </tr>
+            <tr>
+                <td>2018</td>
+                <td>國家災害防救科技中心</td>
+                <td>資訊組 實習生</td>
+            </tr>
+            <tr>
+                <td>2021</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>研究員</td>
+            </tr>
+            <tr>
+                <td>2024</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>GIS顧問</td>
+            </tr>
+        </table>
+        <h2>參與計畫</h2>
+        <table>
+            <tr>
+                <th>編號</th>
+                <th>計畫名稱</th>
+                <th>委託單位</th>
+                <th>受託單位</th>
+                <th>執行時間</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>111、112、113年度教育部防災教育資訊網擴充維運暨各級學校災害潛勢評估計畫</td>
+                <td>教育部</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>111/1參與至今</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>111年度臺中市配合國土計畫推動農地利用綜合規劃計畫</td>
+                <td>臺中市政府農業局</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>111/5-111/12</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>111年度國土計畫部門空間發展策略研擬及國家資產規劃資料庫建置</td>
+                <td>內政部城鄉發展分署</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>112/1參與至今</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>原住民族8所校園災害判釋圖資產製案</td>
+                <td>國立屏東大學</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>2023/9/1-2023/9/30</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>110&111年度智慧國土發展策略研析增能計畫</td>
+                <td>國家發展委員會</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>110/12參與至今</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>國土空間資料目錄與國家底圖分組運作整合服務案</td>
+                <td>內政部地政司</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>110/12參與至今</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>移動•行動-戰後臺灣榮民與眷村生活記憶暨轉譯計畫</td>
+                <td>國立臺灣歷史博物館</td>
+                <td>財團法人台灣地理資訊中心</td>
+                <td>111/12參與至今</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>109年度花蓮縣土石流潛勢溪流保全戶與疏散避難規劃及現地照片更新維護計畫-秀林鄉、豐濱鄉</td>
+                <td>花蓮縣政府</td>
+                <td>國立東華大學</td>
+                <td>2020/2/1-2020/12/31</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>109年臺東海岸聚落環境調查與致災風險評估研究</td>
+                <td>國家災害防救科技中心</td>
+                <td>國立東華大學</td>
+                <td>2020/3/1-2020/12/31</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>108年度花蓮縣土石流潛勢溪流保全戶與疏散避難規劃及現地照片更新維護計畫-壽豐鄉、鳳林鎮、光復鄉</td>
+                <td>花蓮縣政府</td>
+                <td>國立東華大學</td>
+                <td>2019/2/1-2019/12/31</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>107年度花蓮縣土石流潛勢溪流保全戶與疏散避難規劃及現地照片更新維護計畫-花蓮市、吉安鄉、富里鄉</td>
+                <td>花蓮縣政府</td>
+                <td>國立東華大學</td>
+                <td>2018/2/1 - 2018/12/31</td>
+        </table>
+    </div>
+</body>
+
+</html>

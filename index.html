@@ -2,13 +2,258 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EShine Wang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    header,
+    nav,
+    .slideshow-container {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        top: 0
+    }
+
+    header {
+        background-color: #265C4B;
+        color: white;
+        padding: 10px 0;
+        text-align: left;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    h4 {
+        margin-top: 0;
+        padding: 0;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 50px;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    }
+
+    h4 img {
+        margin-top: 3px;
+    }
+
+    nav {
+        top: 70px;
+        background-color: #2CBF9D;
+        padding: 7px;
+        text-align: center;
+    }
+
+    nav a {
+        background-color: transparent;
+        border: none;
+        color: white;
+        text-decoration: none;
+        padding: 9px 50px;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 30%;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    nav a:hover {
+        background-color: rgba(143, 193, 181, 0.9);
+    }
+
+    nav a:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        height: calc(100% - 10px);
+        width: 2px;
+        background-color: white;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .slideshow-container {
+        top: 114px;
+        max-width: 400px;
+        margin-right: 20px;
+    }
+
+    body {
+        padding-top: 150px;
+
+    }
+
+    h2 {
+        font-size: 36px;
+        color: #015958;
+    }
+
+    h3 {
+        font-size: 16px;
+        color: #008F8C;
+        margin-top: -30px;
+        padding-left: 480px;
+        margin-left: 30px;
+        width: 320px;
+        border-bottom: 1px solid gray;
+    }
+
+    h5 {
+        font-size: 18px;
+        width: 800px;
+        margin-left: 36px;
+    }
+
+    .container {
+        max-width: 800px;
+        display: flex;
+    }
+
+    .text-container {
+        position: absolute;
+
+        right: 0;
+        width: calc(100% - 440px);
+        padding: 20px;
+        background-color: #F7F7F7;
+        top: 114px;
+    }
+
+    .container1 {
+        margin-left: 72px;
+    }
+
+    .paragraphs {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        width: calc(50% - 72px);
+        margin-right: 40px;
+    }
+
+    .paragraphs img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: 100%;
+        height: auto;
+        margin-right: 20px;
+    }
+
+    .paragraphs p {
+        word-wrap: break-all;
+        margin-bottom: 3px;
+        margin-left: 60px;
+    }
+
+    p {
+        margin: 7px;
+    }
+
+    .noto-sans {
+        font-family: "Noto Sans TC", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+    }
+    </style>
 </head>
 
 <body>
-    <div> hello world <p style="background-color: #2828FF;"></p style>
+    <header>
+        <h1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王奕翔｜神采奕奕!展翅翱翔!</h1>
+        <h4><img src="mail.png" alt="Email icon" style="height: 20px;"> 聯絡資訊&nbsp;:&nbsp;eshine0806@gmail.com&nbsp;&nbsp;&nbsp;</h4>
+    </header>
+    <nav>
+        <a href="index.html">主頁</a>
+        <a href="about.html">關於我</a>
+        <a href="experience.html">個人經歷</a>
+        <a href="skills.html">專業技能</a>
+        <a href="reward.html">獲獎紀錄</a>
+    </nav>
+    <div class="container">
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="image1.jpg" style="width:100%">
+            </div>
+            <div class="mySlides fade">
+                <img src="image2.jpg" style="width:100%">
+            </div>
+            <div class="mySlides fade">
+                <img src="image3.jpg" style="width:100%">
+            </div>
+            <div class="mySlides fade">
+                <img src="image4.jpg" style="width:100%">
+            </div>
+            <div class="mySlides fade">
+                <img src="image5.jpg" style="width:100%">
+            </div>
+        </div>
+        <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1
+            }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 2000);
+            /*2秒輪播*/
+        }
+        </script>
+        <div class="text-container">
+            <h2 class="noto-sans">&nbsp;&nbsp;&nbsp;您好，我是王奕翔</h2>
+            <h3>一位具備大數據及空間分析能力的GIS研究者</h3>
+            <p>
+                <h5>個人在大學時期對於GIS的應用深感興趣，因此於大學就學時期即進入地理資訊系統研究室從事坡地及海岸災害方面的研究計畫，畢業後也繼續從事GIS應用的工作，應用的研究領域涵蓋國土規劃、眷村文化、災害防救等主題。目前為了增進自我的技能及加深研究的深度，就讀於國立臺灣師範大學地理學系碩士班，期許未來能利用GIS改善臺灣各領域上的空間規劃議題。</h5>
+                <div class="container1">
+                    <div class="paragraphs">
+                        <img src=research.png>
+                        <p style="font-size: 24px; color: #015958;font-weight: bold ">研究領域</p>
+                        <div>本人的研究領域為<strong>GIS應用</strong>，目前應用的研究領域涵蓋國土規劃、眷村文化、災害防救等主題。作業範疇涵蓋事前的資料蒐整；執行期間的大數據分析及空間分析；得出結果的資料呈現即報告撰寫。此外，另一部分為<strong>現地訪查及野外調查</strong>，過去曾進行過坡地及海岸災害方面的現地勘查及訪談，能夠於出發前預先規劃出勘查點及訪談內容，於短時間內掌握現地狀況。</div>
+                        <br><br><br><br><br><br><br>
+                        <img src="cop.png" style="margin-top: 330px" ;>
+                        <p style=" font-size: 24px; color: #015958;font-weight: bold ">合作模式</p>
+                        <div><strong>本人是一個能夠獨立作業，也能夠進行團隊合作的人</strong>。過去在執行計畫時，能夠扮演好執行者的角色，處理好被賦予的任務；也能夠扮演輔助者藉由自我的專業協助他人或教導他人完成事務。目前尚未扮演過領導者，期望自己能透過經驗的累積，逐漸邁入觸及領導者的任務。</div>
+                    </div>
+                    <div class=" paragraphs">
+                        <img src="star.png">
+                        <p style="font-size: 24px; color: #015958;font-weight: bold ">研究專長</p>
+                        <div>1.GIS應用-能夠應用空間分析工具進行資料處理及分析，以及繪製各類主題地圖。</div>
+                        <div>2.空拍攝影-曾考取專業空拍證照，能夠操縱無人機進行攝影及後製的建模、接圖等。</div>
+                        <div>3.RTK測量-能夠將空拍機配合測量儀器進行地表測量，產製高精度之DEM。</div>
+                        <div>4.Python-熟悉利用Python處理大數據，包含Pandas,GDAL,Geopanda的模組。</div>
+                        <div>5.現地勘查-能夠於出發前預先規劃出勘查點及訪談內容，於短時間內掌握現地狀況。 </div>
+                        <div>6.簡確法-熟悉坡地調查中的簡確法，調查內容涵蓋坡度、沖蝕度、岩體強度、土壤深度、邊坡穩定程度分類等。</div>
+                        <br>
+                        <img src="reward.png" style="margin-top: 330px;">
+                        <p style="font-size: 24px; color: #015958;font-weight: bold ">個人成果</p>
+                        <div>於實習後與組員將實習成果撰寫：<a href="https://doi.org/10.6857/CDMT.201811.0004">應用大數據資料與空間分析工具於農業損失預警系統－以水稻為例</a>，並於<strong>2018年臺灣災害管理研討會獲學生組優秀論文獎</strong>。另，於2019年擔任地理資訊系統概論助教時獲教學卓越中心優良教學助理獎。</div>
+                    </div>
+                </div>
+        </div>
     </div>
 </body>
 
