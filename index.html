@@ -126,7 +126,6 @@
 
     .text-container {
         position: absolute;
-
         right: 0;
         width: calc(100% - 440px);
         padding: 20px;
@@ -170,6 +169,81 @@
         font-optical-sizing: auto;
         font-weight: 700;
         font-style: normal;
+    }
+
+    @media only screen and (max-width: 768px) {
+        header {
+            padding: 5px 0;
+            height: auto;
+        }
+
+        h4 {
+            top: 10px;
+            right: 10px;
+        }
+
+        nav {
+            top: 50px;
+        }
+
+        nav a {
+            padding: 9px 20px;
+            font-size: 18px;
+        }
+
+        h3 {
+            padding-left: 20px;
+            margin-left: 20px;
+            width: auto;
+        }
+
+        h5 {
+            margin-left: 20px;
+        }
+
+        .container1 {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .text-container {
+            top: 80px;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        nav a {
+            padding: 9px 10px;
+            /* Adjusted for smaller screens */
+            font-size: 16px;
+            /* Adjusted for smaller screens */
+        }
+
+        h3 {
+            padding-left: 10px;
+            /* Adjusted for smaller screens */
+            margin-left: 10px;
+            /* Adjusted for smaller screens */
+            width: auto;
+            /* Adjusted for smaller screens */
+        }
+
+        h5 {
+            margin-left: 10px;
+            /* Adjusted for smaller screens */
+        }
+
+        .container1 {
+            margin-left: 10px;
+            /* Adjusted for smaller screens */
+            margin-right: 10px;
+            /* Adjusted for smaller screens */
+        }
+
+        .text-container {
+            top: 60px;
+            /* Adjusted for smaller screens */
+        }
     }
     </style>
 </head>
