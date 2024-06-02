@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>全臺新聞分布地圖</title>
+    <title>全臺新聞分布地圖v1</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -86,10 +86,18 @@
         /* 半透明灰色背景 */
         padding: 10px;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
     }
 
     .news-item h3 {
         margin-bottom: 5px;
+    }
+
+    .news-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
     </style>
 </head>
@@ -160,9 +168,11 @@
                         const listItem = document.createElement('div');
                         listItem.classList.add('news-item'); // 添加 CSS 类名以樣式化新聞項目
                         listItem.innerHTML = `
-                    <h3>${title}</h3>
-                    <p>時間: ${time}</p>
-                    <p>地點: ${county}</p>
+                    <div class="news-info">
+                        <p>標題: ${title}</p>
+                        <p>時間: ${time}</p>
+                        <p>地點: ${county}</p>
+                    </div>
                 `;
                         listContainer.appendChild(listItem);
                     });
@@ -170,7 +180,7 @@
                 .catch(error => console.error('Error loading CSV:', error));
         }
         </script>
-<div class="right" id="map"></div>
+        <div class="right" id="map"></div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script>
         var map = L.map('map').setView([23.55, 120.97], 8);
@@ -208,35 +218,6 @@
                 value > 10 ? '#FED976' :
                 '#FFFFFF';
         }
-
-        function loadCSV() {
-            fetch('0602_news.csv')
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split('\n').slice(1); // Exclude header row
-                    const listContainer = document.getElementById('news-list');
-
-                    rows.forEach(row => {
-                        const columns = row.split(',');
-                        const title = columns[0];
-                        const time = columns[1];
-                        const location = columns[2];
-                        const content = columns[3];
-
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `
-                                <h3>${title}</h3>
-                                <p>時間: ${time}</p>
-                                <p>地點: ${location}</p>
-                                <p>內容: ${content}</p>
-                            `;
-                        listContainer.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error loading CSV:', error));
-        }
-
-        loadCSV();
         </script>
 </body>
 
