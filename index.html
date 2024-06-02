@@ -30,12 +30,12 @@
             .then(data => {
                 L.geoJSON(data, {
                     style: function(feature) {
-                        var value = feature.properties['ALL']; // 获取特征的 '6/2' 字段的值
+                        var value = feature.properties['ALL'];
                         return {
-                            fillColor: getColor(value), // 根据 '6/2' 字段的值获取填充颜色
+                            fillColor: getColor(value),
                             weight: 1,
                             opacity: 1,
-                            color: 'white',
+                            color: 'gray',
                             fillOpacity: 0.7
                         };
                     }
@@ -49,7 +49,7 @@
                    value > 30   ? '#FD8D3C' :
                    value > 20   ? '#FEB24C' :
                    value > 10   ? '#FED976' :
-                                  '#FFFFFF'; // 如果值不存在或者不在以上范围内，默认为白色
+                                  '#FFFFFF';
         }
     </script>
 </body>
