@@ -23,7 +23,9 @@
         }).addTo(map);
 
         // 加载 GeoJSON 数据并显示在地图上
-        fetch('COUNTY_news.geojson')
+        fetch('COUNTY_news.geojson', {
+            mode: 'no-cors'
+        })
             .then(response => response.json())
             .then(data => {
                 L.geoJSON(data, {
