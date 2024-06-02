@@ -14,7 +14,7 @@
         width: 100%;
         height: 100%;
         color: white;
-        /* 字體改為白色 */
+        overflow: hidden;
     }
 
     .container {
@@ -66,6 +66,31 @@
         font-size: 16px;
         margin-left: 10px;
     }
+
+    #news-list {
+        max-height: calc(100vh - 100px);
+        /* 調整列表的最大高度，以適應不同屏幕 */
+        overflow-y: auto;
+        /* 添加垂直滾動條 */
+        padding-right: 10px;
+        /* 為避免水平滾動條擋住列表內容，增加右側內邊距 */
+        display: flex;
+        flex-direction: column;
+        /* 設置列表為縱向排列 */
+        gap: 20px;
+        /* 設置列表項目之間的間隔 */
+    }
+
+    .news-item {
+        background-color: rgba(255, 255, 255, 0.1);
+        /* 半透明灰色背景 */
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .news-item h3 {
+        margin-bottom: 5px;
+    }
     </style>
 </head>
 
@@ -116,7 +141,7 @@
                     </select>
                 </div>
             </div>
-            <div id="news-list"></div> <!-- 新聞列表 -->
+            <div id="news-list"></div>
         </div>
         <script>
         function loadCSV() {
@@ -130,16 +155,14 @@
                         const columns = row.split(',');
                         const title = columns[0];
                         const time = columns[1];
-                        const location = columns[2];
-                        const content = columns[3];
+                        const county = columns[2];
 
                         const listItem = document.createElement('div');
                         listItem.classList.add('news-item'); // 添加 CSS 类名以樣式化新聞項目
                         listItem.innerHTML = `
                     <h3>${title}</h3>
                     <p>時間: ${time}</p>
-                    <p>地點: ${location}</p>
-                    <p>內容: ${content}</p>
+                    <p>地點: ${county}</p>
                 `;
                         listContainer.appendChild(listItem);
                     });
@@ -147,7 +170,7 @@
                 .catch(error => console.error('Error loading CSV:', error));
         }
         </script>
-        <div class="right" id="map"></div>
+<div class="right" id="map"></div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script>
         var map = L.map('map').setView([23.55, 120.97], 8);
