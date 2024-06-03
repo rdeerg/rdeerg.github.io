@@ -123,7 +123,7 @@
                 </div>
                 <div class="region-label">
                     <h2>地區:</h2>
-                    <select name="region-dropdown">
+                    <select name="region-dropdown" onchange="updateMap_1()">
                         <option value="全臺">全臺</option>
                         <option value="基隆">基隆</option>
                         <option value="臺北">臺北</option>
@@ -264,7 +264,7 @@
         }
 
 
-        function updateMap() {
+        function updateMap_1() {
             const region-dropdown = document.getElementById('region-dropdown');
             const selectedLc = region-dropdown.value;
 
