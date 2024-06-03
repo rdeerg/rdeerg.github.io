@@ -169,14 +169,15 @@
                         const title = columns[0];
                         const time = columns[1];
                         const county = columns[2];
+                        const link = columns[3]; // Assuming the link is in the 4th column
 
                         const listItem = document.createElement('div');
                         listItem.classList.add('news-item');
                         listItem.innerHTML = `
-        <h3>標題: ${title}</h3>
-        <p>時間: ${time}</p>
-        <p>地點: ${county}</p>
-    `;
+                    <h3><a href="${link}" target="_blank">${title}</a></h3>
+                    <p>時間: ${time}</p>
+                    <p>地點: ${county}</p>
+                `;
                         listContainer.appendChild(listItem);
                     });
                 })
