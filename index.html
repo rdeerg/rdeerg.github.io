@@ -225,6 +225,13 @@
             const timeDropdown = document.getElementById('time-dropdown');
             const selectedTime = timeDropdown.value;
 
+            // 清除地圖上已經存在的圖層
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.GeoJSON) {
+                    map.removeLayer(layer);
+                }
+            });
+
             fetch('COUNTY_news.geojson', {
                     mode: 'no-cors'
                 })
