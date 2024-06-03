@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>全臺社會新聞統計地圖</title>
-    <meta charset="utf-8-sig" />
+    <title>全臺新聞分布地圖</title>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
@@ -19,18 +20,13 @@
     .container {
         display: flex;
         width: 100%;
-        /* height: 100%; Remove height property */
-        height: 90vh;
-        /* Set a fixed height */
+        height: 100%;
     }
 
     .left {
         flex: 1;
         background-color: #3b5998;
         padding: 20px;
-        width: 40px;
-        height: 90vh;
-        /* Add overflow-y property */
     }
 
     .right {
@@ -72,17 +68,22 @@
     }
 
     #news-list {
-        max-height: calc(90vh - 100px);
-        /* Adjust based on the new container height */
+        max-height: calc(100vh - 100px);
+        /* 調整列表的最大高度，以適應不同屏幕 */
         overflow-y: auto;
+        /* 添加垂直滾動條 */
         padding-right: 10px;
+        /* 為避免水平滾動條擋住列表內容，增加右側內邊距 */
         display: flex;
         flex-direction: column;
+        /* 設置列表為縱向排列 */
         gap: 20px;
+        /* 設置列表項目之間的間隔 */
     }
 
     .news-item {
         background-color: rgba(255, 255, 255, 0.1);
+        /* 半透明灰色背景 */
         padding: 10px;
         border-radius: 5px;
         display: flex;
@@ -105,12 +106,12 @@
     <div class="container">
         <div class="left">
             <div class="title">
-                <h1>全臺社會新聞統計地圖</h1>
+                <h1>全臺新聞分布圖</h1>
             </div>
             <div class="time-region-container">
                 <div class="time-label">
                     <h2>時間:</h2>
-                    <select id="time-dropdown" name="time-dropdown" onchange="updateMap()">
+                    <select name="time-dropdown">
                         <option value="all">近一周</option>
                         <option value="0602">6/2</option>
                         <option value="0601">6/1</option>
@@ -123,7 +124,7 @@
                 </div>
                 <div class="region-label">
                     <h2>地區:</h2>
-                    <select name="region-dropdown" onchange="updateMap_1()">
+                    <select name="region-dropdown">
                         <option value="全臺">全臺</option>
                         <option value="基隆">基隆</option>
                         <option value="臺北">臺北</option>
@@ -148,17 +149,11 @@
                     </select>
                 </div>
             </div>
-            <div id="news-list">
-                <h2>新聞列表</h2>
-            </div>
+            <div id="news-list"></div>
         </div>
         <script>
         function loadCSV() {
-            fetch('0602news.csv', {
-                    headers: {
-                        'Content-Type': 'text/csv; charset=utf-8-sig'
-                    }
-                })
+            fetch('0602news.csv')
                 .then(response => response.text())
                 .then(data => {
                     const rows = data.split('\n').slice(1); // Exclude header row
@@ -169,14 +164,15 @@
                         const title = columns[0];
                         const time = columns[1];
                         const county = columns[2];
-                        const link = columns[3]; // Assuming the link is in the 4th column
 
                         const listItem = document.createElement('div');
-                        listItem.classList.add('news-item');
+                        listItem.classList.add('news-item'); // 添加 CSS 类名以樣式化新聞項目
                         listItem.innerHTML = `
-                    <h3><a href="${link}" target="_blank">${title}</a></h3>
-                    <p>時間: ${time}</p>
-                    <p>地點: ${county}</p>
+                    <div class="news-info">
+                        <p>標題: ${title}</p>
+                        <p>時間: ${time}</p>
+                        <p>地點: ${county}</p>
+                    </div>
                 `;
                         listContainer.appendChild(listItem);
                     });
@@ -193,7 +189,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-
+        // 加载 GeoJSON 数据并显示在地图上
         fetch('COUNTY_news.geojson', {
                 mode: 'no-cors'
             })
@@ -213,6 +209,7 @@
                 }).addTo(map);
             });
 
+        // 返回不同值的颜色
         function getColor(value) {
             return value > 80 ? '#E31A1C' :
                 value > 50 ? '#FC4E2A' :
@@ -221,88 +218,6 @@
                 value > 10 ? '#FED976' :
                 '#FFFFFF';
         }
-
-
-
-        function updateMap() {
-            const timeDropdown = document.getElementById('time-dropdown');
-            const selectedTime = timeDropdown.value;
-
-            // 清除地圖上已經存在的圖層
-            map.eachLayer(function(layer) {
-                if (layer instanceof L.GeoJSON) {
-                    map.removeLayer(layer);
-                }
-            });
-
-            fetch('COUNTY_news.geojson', {
-                    mode: 'no-cors'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    L.geoJSON(data, {
-                        style: function(feature) {
-                            var value = feature.properties['F6_2'];
-                            return {
-                                fillColor: getColor_1(value),
-                                weight: 1,
-                                opacity: 1,
-                                color: 'gray',
-                                fillOpacity: 0.7
-                            };
-                        }
-                    }).addTo(map);
-                });
-        }
-
-        function getColor_1(value) {
-            return value > 10 ? '#FC4E2A' :
-                value > 5 ? '#FD8D3C' :
-                value > 3 ? '#FEB24C' :
-                value > 0 ? '#FED976' :
-                '#FFFFFF';
-        }
-
-
-        function updateMap_1() {
-            const region-dropdown = document.getElementById('region-dropdown');
-            const selectedLc = region-dropdown.value;
-
-            // 清除地圖上已經存在的圖層
-            map.eachLayer(function(layer) {
-                if (layer instanceof L.GeoJSON) {
-                    map.removeLayer(layer);
-                }
-            });
-
-            fetch('TOWN_news.geojson', {
-                    mode: 'no-cors'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    L.geoJSON(data, {
-                        style: function(feature) {
-                            var value = feature.properties['ALL'];
-                            return {
-                                fillColor: getColor_2(value),
-                                weight: 1,
-                                opacity: 1,
-                                color: 'gray',
-                                fillOpacity: 0.7
-                            };
-                        }
-                    }).addTo(map);
-                });
-        }
-
-        function getColor_2(value) {
-            return value > 5 ? '#FC4E2A' :
-                value > 3 ? '#FD8D3C' :
-                value > 2 ? '#FEB24C' :
-                value > 0 ? '#FED976' :
-                '#FFFFFF';
-        }
-        loadCSV();
         </script>
 </body>
 
