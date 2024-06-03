@@ -262,6 +262,46 @@
                 value > 0 ? '#FED976' :
                 '#FFFFFF';
         }
+
+
+        function updateMap() {
+            const region-dropdown = document.getElementById('region-dropdown');
+            const selectedLc = region-dropdown.value;
+
+            // 清除地圖上已經存在的圖層
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.GeoJSON) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            fetch('TOWN_news.geojson', {
+                    mode: 'no-cors'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: function(feature) {
+                            var value = feature.properties['ALL'];
+                            return {
+                                fillColor: getColor_2(value),
+                                weight: 1,
+                                opacity: 1,
+                                color: 'gray',
+                                fillOpacity: 0.7
+                            };
+                        }
+                    }).addTo(map);
+                });
+        }
+
+        function getColor_2(value) {
+            return value > 5 ? '#FC4E2A' :
+                value > 3 ? '#FD8D3C' :
+                value > 2 ? '#FEB24C' :
+                value > 0 ? '#FED976' :
+                '#FFFFFF';
+        }
         loadCSV();
         </script>
 </body>
