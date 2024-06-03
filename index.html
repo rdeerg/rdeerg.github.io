@@ -157,6 +157,7 @@
                     })
                     .then(response => response.text())
                     .then(data => {
+                        console.log("CSV data:", data); // 调试信息
                         const rows = data.split('\n').slice(1); // Exclude header row
                         const listContainer = document.getElementById('news-list');
 
