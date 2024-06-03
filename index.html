@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-
 <head>
     <title>全臺新聞分布地圖</title>
     <meta charset="utf-8" />
@@ -20,13 +17,17 @@
     .container {
         display: flex;
         width: 100%;
-        height: 100%;
+        /* height: 100%; Remove height property */
+        height: 90vh;
+        /* Set a fixed height */
     }
 
     .left {
         flex: 1;
         background-color: #3b5998;
         padding: 20px;
+        overflow-y: auto;
+        /* Add overflow-y property */
     }
 
     .right {
@@ -68,22 +69,17 @@
     }
 
     #news-list {
-        max-height: calc(100vh - 100px);
-        /* 調整列表的最大高度，以適應不同屏幕 */
+        max-height: calc(90vh - 100px);
+        /* Adjust based on the new container height */
         overflow-y: auto;
-        /* 添加垂直滾動條 */
         padding-right: 10px;
-        /* 為避免水平滾動條擋住列表內容，增加右側內邊距 */
         display: flex;
         flex-direction: column;
-        /* 設置列表為縱向排列 */
         gap: 20px;
-        /* 設置列表項目之間的間隔 */
     }
 
     .news-item {
         background-color: rgba(255, 255, 255, 0.1);
-        /* 半透明灰色背景 */
         padding: 10px;
         border-radius: 5px;
         display: flex;
