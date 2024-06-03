@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>全臺新聞分布地圖v1</title>
+    <title>全臺新聞分布地圖</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -106,12 +106,12 @@
     <div class="container">
         <div class="left">
             <div class="title">
-                <h1>全臺新聞分布圖</h1>
+                <h1>全臺新聞分布圖V1</h1>
             </div>
             <div class="time-region-container">
                 <div class="time-label">
                     <h2>時間:</h2>
-                    <select name="time-dropdown">
+                    <select id="time-dropdown" name="time-dropdown" onchange="updateMap()">
                         <option value="all">近一周</option>
                         <option value="0602">6/2</option>
                         <option value="0601">6/1</option>
@@ -189,7 +189,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // 加载 GeoJSON 数据并显示在地图上
+
         fetch('COUNTY_news.geojson', {
                 mode: 'no-cors'
             })
@@ -209,13 +209,46 @@
                 }).addTo(map);
             });
 
-        // 返回不同值的颜色
-        function getColor(value) {
+        function getColor_1(value) {
             return value > 80 ? '#E31A1C' :
                 value > 50 ? '#FC4E2A' :
                 value > 30 ? '#FD8D3C' :
                 value > 20 ? '#FEB24C' :
                 value > 10 ? '#FED976' :
+                '#FFFFFF';
+        }
+
+
+
+        function updateMap() {
+            const timeDropdown = document.getElementById('time-dropdown');
+            const selectedTime = timeDropdown.value;
+
+            fetch('COUNTY_news.geojson', {
+                    mode: 'no-cors'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: function(feature) {
+                            var value = feature.properties[selectedTime];
+                            return {
+                                fillColor: getColor_1(value),
+                                weight: 1,
+                                opacity: 1,
+                                color: 'gray',
+                                fillOpacity: 0.7
+                            };
+                        }
+                    }).addTo(map);
+                });
+        }
+
+        function getColor(value) {
+            return value > 10 ? '#FC4E2A' :
+                value > 5 ? '#FD8D3C' :
+                value > 3 ? '#FEB24C' :
+                value > 0 ? '#FED976' :
                 '#FFFFFF';
         }
         </script>
