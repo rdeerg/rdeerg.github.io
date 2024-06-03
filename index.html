@@ -152,11 +152,11 @@
         </div>
         <script>
         function loadCSV() {
-    fetch('0602news.csv', {
-        headers: {
-            'Content-Type': 'text/csv; charset=utf-8-sig'
-        }
-    })
+            fetch('0602news.csv', {
+                    headers: {
+                        'Content-Type': 'text/csv; charset=utf-8-sig'
+                    }
+                })
                 .then(response => response.text())
                 .then(data => {
                     const rows = data.split('\n').slice(1); // Exclude header row
