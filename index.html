@@ -1,56 +1,257 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Leaflet with GeoJSON</title>
+    <title>全臺新聞分布地圖</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map {
-            height: 100vh;
-            width: 100%;
-        }
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        color: white;
+        overflow: hidden;
+    }
+
+    .container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    .left {
+        flex: 1;
+        background-color: #3b5998;
+        padding: 20px;
+    }
+
+    .right {
+        flex: 2;
+    }
+
+    #map {
+        height: 110vh;
+        width: 100%;
+    }
+
+    .title {
+        text-align: center;
+        /* 將標題文字置中 */
+    }
+
+    .time-region-container {
+        display: flex;
+    }
+
+    .time-label {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+
+
+    .region-label {
+        display: flex;
+        align-items: center;
+        margin-left: 40px;
+    }
+
+    select {
+        width: 100px;
+        padding: 5px;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    #news-list {
+        max-height: calc(100vh - 100px);
+        /* 調整列表的最大高度，以適應不同屏幕 */
+        overflow-y: auto;
+        /* 添加垂直滾動條 */
+        padding-right: 10px;
+        /* 為避免水平滾動條擋住列表內容，增加右側內邊距 */
+        display: flex;
+        flex-direction: column;
+        /* 設置列表為縱向排列 */
+        gap: 20px;
+        /* 設置列表項目之間的間隔 */
+    }
+
+    .news-item {
+        background-color: rgba(255, 255, 255, 0.1);
+        /* 半透明灰色背景 */
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .news-item h3 {
+        margin-bottom: 5px;
+    }
+
+    .news-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
     </style>
 </head>
+
 <body>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([51.505, -0.09], 5);
+    <div class="container">
+        <div class="left">
+            <div class="title">
+                <h1>全臺新聞分布圖V1</h1>
+            </div>
+            <div class="time-region-container">
+                <div class="time-label">
+                    <h2>時間:</h2>
+                    <select id="time-dropdown" name="time-dropdown" onchange="updateMap()">
+                        <option value="all">近一周</option>
+                        <option value="0602">6/2</option>
+                        <option value="0601">6/1</option>
+                        <option value="0531">5/31</option>
+                        <option value="0530">5/30</option>
+                        <option value="0529">5/29</option>
+                        <option value="0528">5/28</option>
+                        <option value="0527">5/27</option>
+                    </select>
+                </div>
+                <div class="region-label">
+                    <h2>地區:</h2>
+                    <select name="region-dropdown">
+                        <option value="全臺">全臺</option>
+                        <option value="基隆">基隆</option>
+                        <option value="臺北">臺北</option>
+                        <option value="新北">新北</option>
+                        <option value="桃園">桃園</option>
+                        <option value="新竹">新竹</option>
+                        <option value="苗栗">苗栗</option>
+                        <option value="臺中">臺中</option>
+                        <option value="彰化">彰化</option>
+                        <option value="南投">南投</option>
+                        <option value="雲林">雲林</option>
+                        <option value="嘉義">嘉義</option>
+                        <option value="臺南">臺南</option>
+                        <option value="高雄">高雄</option>
+                        <option value="屏東">屏東</option>
+                        <option value="宜蘭">宜蘭</option>
+                        <option value="花蓮">花蓮</option>
+                        <option value="臺東">臺東</option>
+                        <option value="澎湖">澎湖</option>
+                        <option value="金門">金門</option>
+                        <option value="連江">連江</option>
+                    </select>
+                </div>
+            </div>
+            <div id="news-list"></div>
+        </div>
+        <script>
+        function loadCSV() {
+            fetch('0602news.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').slice(1); // Exclude header row
+                    const listContainer = document.getElementById('news-list');
+
+                    rows.forEach(row => {
+                        const columns = row.split(',');
+                        const title = columns[0];
+                        const time = columns[1];
+                        const county = columns[2];
+
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('news-item'); // 添加 CSS 类名以樣式化新聞項目
+                        listItem.innerHTML = `
+                    <div class="news-info">
+                        <p>標題: ${title}</p>
+                        <p>時間: ${time}</p>
+                        <p>地點: ${county}</p>
+                    </div>
+                `;
+                        listContainer.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error loading CSV:', error));
+        }
+        </script>
+        <div class="right" id="map"></div>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script>
+        var map = L.map('map').setView([23.55, 120.97], 8);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // 加载 GeoJSON 数据并显示在地图上
+
         fetch('COUNTY_news.geojson', {
-            mode: 'no-cors'
-        })
+                mode: 'no-cors'
+            })
             .then(response => response.json())
             .then(data => {
                 L.geoJSON(data, {
                     style: function(feature) {
-                        var value = feature.properties['ALL']; // 获取特征的 '6/2' 字段的值
+                        var value = feature.properties['ALL'];
                         return {
-                            fillColor: getColor(value), // 根据 '6/2' 字段的值获取填充颜色
+                            fillColor: getColor(value),
                             weight: 1,
                             opacity: 1,
-                            color: 'white',
+                            color: 'gray',
                             fillOpacity: 0.7
                         };
                     }
                 }).addTo(map);
             });
 
-        // 返回不同值的颜色
-        function getColor(value) {
-            return value > 80  ? '#E31A1C' :
-                   value > 50  ? '#FC4E2A' :
-                   value > 30   ? '#FD8D3C' :
-                   value > 20   ? '#FEB24C' :
-                   value > 10   ? '#FED976' :
-                                  '#FFFFFF'; // 如果值不存在或者不在以上范围内，默认为白色
+        function getColor_1(value) {
+            return value > 80 ? '#E31A1C' :
+                value > 50 ? '#FC4E2A' :
+                value > 30 ? '#FD8D3C' :
+                value > 20 ? '#FEB24C' :
+                value > 10 ? '#FED976' :
+                '#FFFFFF';
         }
-    </script>
+
+
+
+        function updateMap() {
+            const timeDropdown = document.getElementById('time-dropdown');
+            const selectedTime = timeDropdown.value;
+
+            fetch('COUNTY_news.geojson', {
+                    mode: 'no-cors'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: function(feature) {
+                            var value = feature.properties[selectedTime];
+                            return {
+                                fillColor: getColor_1(value),
+                                weight: 1,
+                                opacity: 1,
+                                color: 'gray',
+                                fillOpacity: 0.7
+                            };
+                        }
+                    }).addTo(map);
+                });
+        }
+
+        function getColor(value) {
+            return value > 10 ? '#FC4E2A' :
+                value > 5 ? '#FD8D3C' :
+                value > 3 ? '#FEB24C' :
+                value > 0 ? '#FED976' :
+                '#FFFFFF';
+        }
+        </script>
 </body>
+
 </html>
