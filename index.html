@@ -223,45 +223,45 @@
         }
 
         function updateMap() {
-            const timeDropdown = document.getElementById('time-dropdown');
-            const selectedTime = timeDropdown.value;
+    const timeDropdown = document.getElementById('time-dropdown');
+    const selectedTime = timeDropdown.value;
 
-            // 清除地圖上已經存在的圖層
-            map.eachLayer(function(layer) {
-                if (layer instanceof L.GeoJSON) {
-                    map.removeLayer(layer);
+    // 清除地圖上已經存在的圖層
+    map.eachLayer(function(layer) {
+        if (layer instanceof L.GeoJSON) {
+            map.removeLayer(layer);
+        }
+    });
+
+    // 更新地圖
+    fetch('COUNTY_news.geojson', {
+            mode: 'no-cors'
+        })
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: function(feature) {
+                    var value = feature.properties[selectedTime] || feature.properties['ALL'];
+                    return {
+                        fillColor: getColor_1(value),
+                        weight: 1,
+                        opacity: 1,
+                        color: 'gray',
+                        fillOpacity: 0.7
+                    };
                 }
-            });
-
-            // 更新地圖
-            fetch('COUNTY_news.geojson', {
-                    mode: 'no-cors'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    L.geoJSON(data, {
-                        style: function(feature) {
-                            var value = feature.properties[selectedTime] || feature.properties['ALL'];
-                            return {
-                                fillColor: getColor_1(value),
-                                weight: 1,
-                                opacity: 1,
-                                color: 'gray',
-                                fillOpacity: 0.7
-                            };
-                        }
-                    }).addTo(map);
-                });
+            }).addTo(map);
+        });
 
             // 更新新聞列表
             updateNewsList(selectedTime);
         }
-
+        
         function updateNewsList(selectedTime) {
             // 清空現有的新聞列表
             const listContainer = document.getElementById('news-list');
             listContainer.innerHTML = '<h2>新聞列表</h2>';
-
+        
             // 加載CSV文件並篩選新聞數據
             fetch('news_data.csv', {
                     headers: {
@@ -274,19 +274,19 @@
                     rows.forEach(row => {
                         const columns = row.split(',');
                         const title = columns[0];
-                        const time = columns[1]; // Assuming the date is in the second column
+                        const date = columns[1]; // Assuming the date is in the second column
                         const county = columns[2];
                         const link = columns[3]; // Assuming the link is in the 4th column
-
+        
                         // 如果新聞的日期與所選日期匹配，則將其添加到新聞列表中
                         if (date === selectedTime) {
                             const listItem = document.createElement('div');
                             listItem.classList.add('news-item');
                             listItem.innerHTML = `
-                        <h3><a href="${link}" target="_blank">${title}</a></h3>
-                        <p>時間: ${time}</p>
-                        <p>地點: ${county}</p>
-                    `;
+                                <h3><a href="${link}" target="_blank">${title}</a></h3>
+                                <p>日期: ${date}</p>
+                                <p>地點: ${county}</p>
+                            `;
                             listContainer.appendChild(listItem);
                         }
                     });
