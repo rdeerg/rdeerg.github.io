@@ -225,34 +225,56 @@
         function updateMap() {
             const timeDropdown = document.getElementById('time-dropdown');
             const selectedTime = timeDropdown.value;
-
+        
             // 清除地圖上已經存在的圖層
             map.eachLayer(function(layer) {
                 if (layer instanceof L.GeoJSON) {
                     map.removeLayer(layer);
                 }
             });
-
-            // 更新地圖
-            fetch('COUNTY_news.geojson', {
-                    mode: 'no-cors'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    L.geoJSON(data, {
-                        style: function(feature) {
-                            var value = feature.properties[selectedTime] || feature.properties['ALL'];
-                            return {
-                                fillColor: getColor_1(value),
-                                weight: 1,
-                                opacity: 1,
-                                color: 'gray',
-                                fillOpacity: 0.7
-                            };
-                        }
-                    }).addTo(map);
-                });
-
+        
+            // 如果所選時間是全臺，則重置地圖為初始狀態
+            if (selectedTime === '全臺') {
+                fetch('COUNTY_news.geojson', {
+                        mode: 'no-cors'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        L.geoJSON(data, {
+                            style: function(feature) {
+                                var value = feature.properties['ALL'];
+                                return {
+                                    fillColor: getColor(value),
+                                    weight: 1,
+                                    opacity: 1,
+                                    color: 'gray',
+                                    fillOpacity: 0.7
+                                };
+                            }
+                        }).addTo(map);
+                    });
+            } else {
+                // 否則，更新地圖
+                fetch('COUNTY_news.geojson', {
+                        mode: 'no-cors'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        L.geoJSON(data, {
+                            style: function(feature) {
+                                var value = feature.properties[selectedTime] || feature.properties['ALL'];
+                                return {
+                                    fillColor: getColor_1(value),
+                                    weight: 1,
+                                    opacity: 1,
+                                    color: 'gray',
+                                    fillOpacity: 0.7
+                                };
+                            }
+                        }).addTo(map);
+                    });
+            }
+        
             // 更新新聞列表
             updateNewsList(selectedTime);
         }
