@@ -283,7 +283,7 @@
             // 清空現有的新聞列表
             const listContainer = document.getElementById('news-list');
             listContainer.innerHTML = '<h2>新聞列表</h2>';
-
+        
             // 加載CSV文件並篩選新聞數據
             fetch('0602news.csv', {
                     headers: {
@@ -300,16 +300,16 @@
                         const date = columns[2]; // Assuming the date is in the third column
                         const county = columns[3];
                         const link = columns[4]; // Assuming the link is in the fifth column
-
-                        // 如果新聞的日期與所選日期匹配，則將其添加到新聞列表中
-                        if (date === selectedTime) {
+        
+                        // 如果所選時間是全部，則顯示全部新聞
+                        if (selectedTime === 'ALL' || date === selectedTime) {
                             const listItem = document.createElement('div');
                             listItem.classList.add('news-item');
                             listItem.innerHTML = `
-                        <h3><a href="${link}" target="_blank">${title}</a></h3>
-                        <p>時間: ${time}</p>
-                        <p>地點: ${county}</p>
-                    `;
+                                <h3><a href="${link}" target="_blank">${title}</a></h3>
+                                <p>時間: ${time}</p>
+                                <p>地點: ${county}</p>
+                            `;
                             listContainer.appendChild(listItem);
                         }
                     });
