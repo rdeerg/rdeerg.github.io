@@ -112,13 +112,13 @@
                     <h2>時間:</h2>
                     <select id="time-dropdown" name="time-dropdown" onchange="updateMap()">
                         <option value="ALL">近一周</option>
-                        <option value="0602">0602</option>
-                        <option value="0601">0601</option>
-                        <option value="0531">0531</option>
-                        <option value="0530">0530</option>
-                        <option value="0529">0529</option>
-                        <option value="0528">0528</option>
-                        <option value="0527">0527</option>
+                        <option value="0602">06/02</option>
+                        <option value="0601">06/01</option>
+                        <option value="0531">05/31</option>
+                        <option value="0530">05/30</option>
+                        <option value="0529">05/29</option>
+                        <option value="0528">05/28</option>
+                        <option value="0527">05/27</option>
                     </select>
                 </div>
                 <div class="region-label">
@@ -242,7 +242,7 @@
                 .then(data => {
                     L.geoJSON(data, {
                         style: function(feature) {
-                            var value = feature.properties[selectedTime] || feature.properties['0602'];
+                            var value = feature.properties[selectedTime] || feature.properties['ALL'];
                             return {
                                 fillColor: getColor_1(value),
                                 weight: 1,
