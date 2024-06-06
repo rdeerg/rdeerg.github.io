@@ -186,32 +186,33 @@
         </script>
         <div class="right" id="map"></div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script>
+    <script>
         var map = L.map('map').setView([23.55, 120.97], 8);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        function resetMap() {
+            map.setView([23.55, 120.97], 8);
 
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-        fetch('COUNTY_news.geojson', {
-                mode: 'no-cors'
-            })
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data, {
-                    style: function(feature) {
-                        var value = feature.properties['ALL'];
-                        return {
-                            fillColor: getColor(value),
-                            weight: 1,
-                            opacity: 1,
-                            color: 'gray',
-                            fillOpacity: 0.7
-                        };
-                    }
-                }).addTo(map);
-            });
+            fetch('COUNTY_news.geojson')
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: function (feature) {
+                            var value = feature.properties['ALL'];
+                            return {
+                                fillColor: getColor(value),
+                                weight: 1,
+                                opacity: 1,
+                                color: 'gray',
+                                fillOpacity: 0.7
+                            };
+                        }
+                    }).addTo(map);
+                });
+        }
 
         function getColor(value) {
             return value > 80 ? '#E31A1C' :
@@ -227,28 +228,29 @@
             const regionDropdown = document.getElementById('region-dropdown');
             const selectedTime = timeDropdown.value;
             const selectedRegion = regionDropdown.value;
-        
+
             // 清除地圖上已經存在的圖層
-            map.eachLayer(function(layer) {
+            map.eachLayer(function (layer) {
                 if (layer instanceof L.GeoJSON) {
                     map.removeLayer(layer);
                 }
             });
-        
+
             // 如果時間和地區都是預設值，則回歸地圖原始狀態
             if (selectedTime === 'ALL' && selectedRegion === '全臺') {
+                resetMap();
                 return;
             }
-        
+
             // 更新地圖
             fetch('COUNTY_news.geojson')
                 .then(response => response.json())
                 .then(data => {
                     L.geoJSON(data, {
-                        style: function(feature) {
+                        style: function (feature) {
                             var value = feature.properties[selectedTime] || feature.properties['ALL'];
                             return {
-                                fillColor: getColor_1(value),
+                                fillColor: getColor(value),
                                 weight: 1,
                                 opacity: 1,
                                 color: 'gray',
@@ -257,78 +259,36 @@
                         }
                     }).addTo(map);
                 });
-        
+
             // 更新新聞列表
             updateNewsList(selectedTime);
         }
 
-        function updateNewsList(selectedTime) {
-            // 清空現有的新聞列表
-            const listContainer = document.getElementById('news-list');
-            listContainer.innerHTML = '<h2>新聞列表</h2>';
-
-            // 加載CSV文件並篩選新聞數據
-            fetch('0602news.csv', {
-                    headers: {
-                        'Content-Type': 'text/csv; charset=utf-8-sig'
-                    }
-                })
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split('\n').slice(1); // Exclude header row
-                    rows.forEach(row => {
-                        const columns = row.split(',');
-                        const title = columns[0];
-                        const time = columns[1];
-                        const date = columns[2]; // Assuming the date is in the third column
-                        const county = columns[3];
-                        const link = columns[4]; // Assuming the link is in the fifth column
-
-                        // 如果新聞的日期與所選日期匹配，則將其添加到新聞列表中
-                        if (date === selectedTime) {
-                            const listItem = document.createElement('div');
-                            listItem.classList.add('news-item');
-                            listItem.innerHTML = `
-                        <h3><a href="${link}" target="_blank">${title}</a></h3>
-                        <p>時間: ${time}</p>
-                        <p>地點: ${county}</p>
-                    `;
-                            listContainer.appendChild(listItem);
-                        }
-                    });
-                })
-                .catch(error => console.error('Error loading CSV:', error));
-        }
-
-        function getColor_1(value) {
-            return value > 10 ? '#FC4E2A' :
-                value > 50 ? '#FD8D3C' :
-                value > 3 ? '#FEB24C' :
-                value > 0 ? '#FED976' :
-                '#FFFFFF';
-        }
-
         function updateMap_1() {
             const regionDropdown = document.getElementById('region-dropdown');
-            const selectedTime = regionDropdown.value;
+            const selectedRegion = regionDropdown.value;
 
             // 清除地圖上已經存在的圖層
-            map.eachLayer(function(layer) {
+            map.eachLayer(function (layer) {
                 if (layer instanceof L.GeoJSON) {
                     map.removeLayer(layer);
                 }
             });
 
-            fetch('TOWN_news.geojson', {
-                    mode: 'no-cors'
-                })
+            // 如果地區是預設值，則回歸地圖原始狀態
+            if (selectedRegion === '全臺') {
+                resetMap();
+                return;
+            }
+
+            fetch('TOWN_news.geojson')
                 .then(response => response.json())
                 .then(data => {
                     L.geoJSON(data, {
-                        style: function(feature) {
+                        style: function (feature) {
                             var value = feature.properties['ALL'];
                             return {
-                                fillColor: getColor_2(value),
+                                fillColor: getColor(value),
                                 weight: 1,
                                 opacity: 1,
                                 color: 'gray',
@@ -338,16 +298,7 @@
                     }).addTo(map);
                 });
         }
-
-        function getColor_2(value) {
-            return value > 10 ? '#FC4E2A' :
-                value > 5 ? '#FD8D3C' :
-                value > 3 ? '#FEB24C' :
-                value > 0 ? '#FED976' :
-                '#FFFFFF';
-        }
-        loadCSV();
-        </script>
+    </script>
 </body>
 
 </html>
