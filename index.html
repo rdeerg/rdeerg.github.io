@@ -222,6 +222,39 @@
                 '#FFFFFF';
         }
 
+        fetch('COUNTY_news.geojson', {
+                mode: 'no-cors'
+            })
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: function(feature) {
+                        var value = feature.properties['ALL'];
+                        return {
+                            fillColor: getColor(value),
+                            weight: 1,
+                            opacity: 1,
+                            color: 'gray',
+                            fillOpacity: 0.7
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.on({
+                            click: function(e) {
+                                showFeatureInfo(feature);
+                            }
+                        });
+                    }
+                }).addTo(map);
+            });
+
+        function showFeatureInfo(feature) {
+            const countyName = feature.properties.COUNTYNAME;
+            const selectedTime = document.getElementById('time-dropdown').value;
+            const value = feature.properties[selectedTime] || feature.properties['ALL'];
+            alert(`區塊名稱: ${countyName}\n日期: ${selectedTime}\n數值: ${value}`);
+        }
+
 
 
         function updateMap() {
