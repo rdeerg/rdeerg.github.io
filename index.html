@@ -242,7 +242,7 @@
                 .then(data => {
                     L.geoJSON(data, {
                         style: function(feature) {
-                            var value = feature.properties[selectedTime] || feature.properties['06月02日'];
+                            var value = feature.properties[selectedTime] || feature.properties['0602'];
                             return {
                                 fillColor: getColor_1(value),
                                 weight: 1,
